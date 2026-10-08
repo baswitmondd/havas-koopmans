@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Havas Lemz × Koopmans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Bangers&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E60001;
+  --red-hot:#ff2a12;
+  --knob:#e5604a;
+  --bg:#2a0614;
+  --bg-deep:#1c030c;
+  --cream:#f6e3dc;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --ease-io:cubic-bezier(.77,0,.18,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--cream);
+  font-family:"Archivo",system-ui,sans-serif;font-stretch:115%;-webkit-font-smoothing:antialiased}
+img{display:block;user-select:none;-webkit-user-drag:none}
+
+/* ---------- gedeelde achtergrond met schuine rode vlakken ---------- */
+.bg{position:absolute;inset:0;overflow:hidden;background:var(--bg)}
+.bg .slab{position:absolute;width:160vmax;height:60vmax;transform-origin:center;
+  background:linear-gradient(90deg,rgba(230,0,1,0) 0%,rgba(230,0,1,.55) 100%);
+  transition:transform 1.4s var(--ease-io),opacity 1.4s}
+.bg .slab.a{left:-70vmax;top:-38vmax;transform:rotate(-27deg);
+  background:linear-gradient(90deg,rgba(120,0,10,.0),rgba(150,0,12,.75))}
+.bg .slab.b{right:-70vmax;bottom:-40vmax;transform:rotate(-27deg);
+  background:linear-gradient(270deg,rgba(150,0,12,.85),rgba(120,0,10,0))}
+.grain{position:absolute;inset:-50%;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-1%,3%)}}
+
+/* ---------- pagina's ---------- */
+.page{position:fixed;inset:0;overflow:hidden;transition:transform 1.2s var(--ease-io)}
+#hero{z-index:2;touch-action:none}
+#dial{z-index:1;transform:translateY(18%) scale(.94);filter:brightness(.4);
+  transition:transform 1.2s var(--ease-io),filter 1.2s var(--ease-io)}
+body.on-dial #hero{transform:translateY(-100%)}
+body.on-dial #dial{transform:none;filter:none}
+
+/* ---------- HERO (vaste dia, coördinaten uit het ontwerp 1910x1080) ---------- */
+#hero{background:#2a0614}
+.slide{position:absolute;left:50%;top:50%;width:1910px;height:1080px;transform-origin:0 0}
+.slide-bg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.slide-bg .port{display:none}
+#hero.portrait .slide-bg .land{display:none}
+#hero.portrait .slide-bg .port{display:inline}
+/* staande opmaak (telefoon), ontwerp 1080x1920 */
+#hero.portrait .slide{width:1080px;height:1920px}
+#hero.portrait .slide .para{left:60px;top:440px;width:960px;height:1100px;
+  clip-path:polygon(0% 100%,0% 45%,100% 0%,100% 55%)}
+#hero.portrait .havas{left:50px;top:110px}
+#hero.portrait .lemz{left:52px;top:350px}
+#hero.portrait .slide .hallo{display:none}
+/* telefoon: "Hallo Dr. Oetker" vast rechtsonder in beeld, naast de gecentreerde scroll-knop */
+.hallo-m{display:none}
+.hallo-logo{position:absolute;right:55px;bottom:50px;width:300px;height:auto;z-index:3}
+#hero.portrait .slide .hallo-logo{display:none}
+#hero.portrait .hallo-m{display:block;position:absolute;right:5vw;width:min(26vw,120px);height:auto;bottom:max(2.6vh,env(safe-area-inset-bottom));z-index:4;
+  text-align:right;font-weight:300;font-stretch:115%;color:#e5b2a8;font-size:min(6.2vw,30px);line-height:1.12;pointer-events:none}
+#hero.portrait .scroll-cue .mouse{width:22px;height:36px}
+#hero.portrait .vid-fallback::after{font-size:30px}
+.slide .para{position:absolute;left:515px;top:88px;width:895px;height:880px;overflow:hidden;
+  clip-path:polygon(0% 100%,0% 47.5%,100% 0%,100% 52.5%)}
+.para video,.para .vid-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid-fallback{background:
+  radial-gradient(60% 50% at 30% 40%,#5a8a4a 0%,transparent 70%),
+  radial-gradient(40% 40% at 70% 60%,#c96a7a 0%,transparent 70%),
+  linear-gradient(135deg,#1d3a26,#3d6b48 50%,#20402b)}
+.vid-fallback::after{content:"VIDEO VOLGT";position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) rotate(-25deg);
+  font-weight:800;font-size:26px;letter-spacing:.4em;color:rgba(255,255,255,.35)}
+.havas,.lemz,.hallo{position:absolute;font-weight:400;font-stretch:125%;white-space:nowrap;pointer-events:none;
+  line-height:1;text-box:trim-both cap alphabetic}
+.hl-logo{position:absolute;left:65px;top:55px;width:1780px;height:auto;z-index:3;pointer-events:none}
+#hero.portrait .hl-logo{left:50px;top:110px;width:980px}
+.havas{left:75px;top:58px;font-size:520px;font-weight:540;letter-spacing:-.045em;color:#e8301f}
+.lemz{left:85px;top:465px;font-size:222px;font-weight:500;letter-spacing:-.02em;color:#e8301f}
+.hallo{right:55px;top:830px;font-size:96px;line-height:115px;text-align:right;font-stretch:115%;font-weight:300;color:#e5b2a8}
+.scroll-cue{position:absolute;left:50%;bottom:2.4vh;transform:translateX(-50%);z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;
+  background:none;border:0;color:var(--cream);font:inherit;
+  font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-weight:600;
+}
+.scroll-cue .sc-txt{text-align:center;line-height:1.7;white-space:nowrap}
+#hero.portrait .scroll-cue .sc-txt{font-size:9px;letter-spacing:.25em}
+.mouse{width:26px;height:42px;border:2px solid var(--cream);border-radius:14px;position:relative}
+.mouse::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;
+  border-radius:2px;background:var(--red);animation:wheel 1.6s ease-in-out infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+.chev{width:14px;height:14px;border-right:2px solid var(--red);border-bottom:2px solid var(--red);
+  transform:rotate(45deg);animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px) rotate(45deg)}}
+
+/* ---------- DIAL ---------- */
+.dial-title{position:absolute;left:0;right:0;top:9vh;text-align:center;z-index:4;
+  font-weight:900;font-stretch:125%;text-transform:uppercase;color:var(--red);
+  font-size:clamp(28px,4.6vw,96px);line-height:.95;letter-spacing:-.01em;
+  transition:transform 1s var(--ease-io),opacity .8s}
+.dial-title .ln{display:block;overflow:hidden;padding:.04em 0}
+.dial-title .ln span{display:inline-block;transform:translateY(110%);transition:transform 1.1s var(--ease-out)}
+body.on-dial .dial-title .ln span{transform:none}
+body.on-dial .dial-title .ln:nth-child(2) span{transition-delay:.12s}
+body.on-dial .dial-title .ln span{transition-delay:.45s}
+body.on-dial .dial-title .ln:nth-child(2) span{transition-delay:.58s}
+.dial-title .hint{display:block;margin-top:2.2vh;font-size:clamp(11px,.85vw,15px);font-weight:600;
+  letter-spacing:.4em;color:var(--cream);opacity:.7}
+.dial-title .ln.sub{color:#fff;font-size:.42em;letter-spacing:.18em;margin-top:.5em}
+body.teams .dial-title{transform:translateY(-30vh);opacity:0}
+
+.team-label{position:absolute;left:0;right:0;top:4vh;text-align:center;z-index:6;pointer-events:none;
+  font-weight:900;font-stretch:125%;text-transform:uppercase;letter-spacing:.3em;
+  font-size:clamp(12px,1vw,18px);color:var(--cream)}
+.team-label .inner{display:inline-block;padding:.7em 1.4em;border:1.5px solid rgba(246,227,220,.25);border-radius:99px;
+  background:rgba(28,3,12,.5);
+  transform:translateY(-160%);opacity:0;transition:transform .9s var(--ease-spring),opacity .5s}
+body.teams .team-label .inner{transform:none;opacity:1}
+.team-label b{color:var(--red)}
+.team-label em{font-style:normal;opacity:.6;margin-left:.6em}
+
+.stage{position:absolute;left:50%;top:53%;width:var(--k);height:var(--k);
+  --k:min(33vh,26vw);transform:translate(-50%,-50%);z-index:10}
+.ticks{position:absolute;inset:-22%;pointer-events:none}
+.dialface{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.dialface .stop{stroke:var(--c,var(--knob));stroke-width:3.5;stroke-linecap:round;cursor:pointer;pointer-events:stroke;opacity:.75;
+  transition:stroke .3s,opacity .3s,stroke-width .3s}
+.dialface .stop:hover,.dialface .stop.hover{opacity:1;stroke-width:5}
+.dialface .hit{stroke:transparent;stroke-width:22;stroke-linecap:round;pointer-events:stroke;cursor:pointer}
+.dialface .stop.near{opacity:1;stroke-width:5}
+.dialface .stop.on{stroke:#fff;opacity:1;stroke-width:5}
+.dialface .zero{stroke:rgba(246,227,220,.45);stroke-width:3;stroke-linecap:round}
+
+/* strak, vlak knop-design */
+.knob-shadow{display:none}
+.knob-ring{position:absolute;inset:0;border-radius:50%;background:#8E2A22;transform:translate(2%,1.6%);
+  transition:box-shadow .6s}
+body.teams .knob-ring{box-shadow:0 0 60px 4px rgba(247,86,56,.3)}
+.knob{position:absolute;inset:0;border-radius:50%;cursor:grab;touch-action:none;overflow:hidden;
+  background:#F75638;will-change:transform;outline:none}
+.knob:active{cursor:grabbing}
+.knob:focus-visible{box-shadow:0 0 0 4px var(--cream)}
+.grip{position:absolute;top:13%;bottom:12%}
+.grip.l{left:0;width:34%;border-radius:0 calc(var(--k)*.11) calc(var(--k)*.11) 0;
+  background:linear-gradient(90deg,#F75638 8%,#CC3A22 100%)}
+.grip.r{left:62.5%;right:0;border-radius:calc(var(--k)*.11) 0 0 calc(var(--k)*.11);
+  background:linear-gradient(90deg,#CC3A22 0%,#E44A2E 70%,#F75638 92%)}
+.pointer{position:absolute;left:50%;top:3%;width:3.6%;height:21%;margin-left:-1.8%;border-radius:99px;
+  background:#8E2A22;transition:background .4s,box-shadow .4s;z-index:2}
+body.teams .pointer{background:#fff;box-shadow:0 0 10px rgba(255,255,255,.8)}
+.knob-pulse{position:absolute;inset:0;border-radius:50%;pointer-events:none;border:2px solid #F75638;
+  animation:pulse 2.4s ease-out infinite}
+body.teams .knob-pulse{display:none}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.55);opacity:0}}
+
+.logo{position:absolute;left:50%;top:50%;width:calc(var(--k)*.38);aspect-ratio:1;
+  margin:calc(var(--k)*-.19) 0 0 calc(var(--k)*-.19);cursor:pointer;border:0;background:none;
+  transition:transform .7s var(--ease-spring),filter .5s;filter:grayscale(.15) brightness(.85);
+  opacity:0}
+body.on-dial .logo{animation:logoIn .9s var(--ease-spring) forwards}
+body.on-dial .logo:nth-of-type(1){animation-delay:.9s}
+body.on-dial .logo:nth-of-type(2){animation-delay:1.0s}
+body.on-dial .logo:nth-of-type(3){animation-delay:1.1s}
+@keyframes logoIn{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+.logo.wide{width:calc(var(--k)*.66);height:calc(var(--k)*.3);aspect-ratio:auto;margin:calc(var(--k)*-.15) 0 0 calc(var(--k)*-.33)}
+.logo .lbl{display:none!important}
+.logo:hover{filter:none}
+.logo.active{filter:drop-shadow(0 0 18px rgba(255,80,40,.9)) brightness(1.08)}
+.logo img,.logo svg{width:100%;height:100%;object-fit:contain}
+.logo .lbl{position:absolute;left:105%;top:50%;transform:translate(-8px,-50%);white-space:nowrap;
+  font-size:clamp(10px,.75vw,14px);letter-spacing:.25em;text-transform:uppercase;font-weight:700;
+  color:var(--cream);opacity:0;transition:opacity .3s,transform .4s var(--ease-out)}
+.logo:hover .lbl,.logo.active .lbl{opacity:1;transform:translate(0,-50%)}
+body.teams .logo .lbl{display:none}
+
+/* burst-deeltjes */
+.spark{position:absolute;left:50%;top:50%;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:20}
+
+/* ---------- halftone-achtergrond ---------- */
+.halftone{position:absolute;inset:-10%;pointer-events:none;opacity:.13;
+  background-image:radial-gradient(circle,#ff5a3c 1.3px,transparent 1.6px);background-size:14px 14px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 70% 30%,#000 0%,transparent 75%);
+          mask-image:radial-gradient(ellipse 70% 60% at 70% 30%,#000 0%,transparent 75%);
+  }
+@keyframes htDrift{to{background-position:140px 70px}}
+
+/* ---------- gloed achter de held ---------- */
+.hero-card .glow{position:absolute;left:10vw;bottom:0;height:94vh;aspect-ratio:1482/1990;pointer-events:none;
+  background:radial-gradient(closest-side,var(--brand) 0%,transparent 100%);opacity:0;
+  transition:opacity 1.6s .4s}
+.hero-card.in .glow{opacity:.32}
+.hero-card.out .glow{opacity:0;transition:opacity .5s}
+@keyframes glowPulse{50%{opacity:.18;scale:.94}}
+
+/* ---------- diepte (parallax) ---------- */
+.hero-card .fig{translate:calc(var(--px,0) * -18px) calc(var(--py,0) * -10px)}
+.hero-card .info{translate:calc(var(--px,0) * 10px) calc(var(--py,0) * 6px)}
+
+/* ---------- snelheidslijnen ---------- */
+.speed{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.speed i{position:absolute;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(255,240,230,.55),transparent);
+  opacity:0}
+
+/* ---------- stripvak-overgang ---------- */
+.panels{position:fixed;inset:0;z-index:30;pointer-events:none;display:flex;transform:skewX(-12deg) scaleX(1.3)}
+.panels div{flex:1;background:#1c030c;border-right:6px solid #14020a;transform:scaleY(0);
+  background-image:radial-gradient(circle,rgba(230,0,1,.35) 1.3px,transparent 1.6px);background-size:12px 12px}
+.panels div:nth-child(odd){transform-origin:50% 0}
+.panels div:nth-child(even){transform-origin:50% 100%}
+
+/* ---------- kleurring + ovenlampje ---------- */
+.dialface .ring-bg{fill:none;stroke:rgba(0,0,0,.25);stroke-width:3}
+.dialface .ring{fill:none;stroke:var(--ring,#E60001);stroke-width:3;stroke-linecap:round;transition:stroke .6s;
+  filter:drop-shadow(0 0 3px var(--ring,#E60001))}
+.oven{position:absolute;inset:6%;border-radius:50%;pointer-events:none;z-index:1;
+  background:radial-gradient(circle,rgba(255,190,90,.95) 0%,rgba(255,110,30,.6) 40%,transparent 72%);
+  opacity:calc(var(--heat,0) * .75);transform:scale(calc(1 + var(--heat,0) * .25))}
+.knob{z-index:2}
+.knob .pointer{box-shadow:0 0 calc(var(--heat,0) * 18px) rgba(255,160,60,calc(var(--heat,0)))}
+
+/* ---------- groepsfoto ---------- */
+.group{position:absolute;inset:0;z-index:5;pointer-events:none}
+.group h2{position:absolute;left:0;right:0;top:7vh;text-align:center;font-family:"Bangers",sans-serif;font-weight:400;
+  letter-spacing:.04em;font-size:clamp(34px,5.4vw,96px);line-height:1;color:#fff;
+  text-shadow:4px 5px 0 var(--red),0 10px 40px rgba(0,0,0,.5);transform:scale(0) rotate(-6deg);
+  transition:transform .9s .3s var(--ease-spring)}
+.group.in h2{transform:none}
+.group.out h2{transform:scale(0);transition:transform .3s}
+.group .row{position:absolute;left:2vw;right:2vw;bottom:20vh;top:20vh;display:flex;justify-content:center;align-items:flex-end}
+.group .g{width:min(calc(var(--h) * .23vw * 1.05), calc(var(--h) * .75vh * .9));aspect-ratio:3/4;margin:0 -1.9vw;position:relative;z-index:var(--z);
+  opacity:0;transform:translateY(40vh) scale(.8);transition:transform 1.2s var(--ease-out),opacity .6s;
+  transition-delay:var(--d)}
+.group .g > div{width:100%;height:100%}
+.group .g img,.group .g svg{width:100%;height:100%;object-fit:contain;object-position:bottom;}
+.group.in .g{opacity:1;transform:translateY(var(--y,0)) rotate(var(--r,0deg))}
+
+.group.out .g{opacity:0;transform:translateY(30vh);transition:transform .6s var(--ease-io),opacity .4s;transition-delay:0s}
+.dialface .stop.group-tick{stroke:#fff;stroke-width:4;stroke-dasharray:2 4}
+
+.team-btn{position:fixed;right:3vw;top:3vh;z-index:40;font:inherit;font-family:"Bangers",sans-serif;font-size:20px;letter-spacing:.06em;
+  padding:.45em 1em;border-radius:99px;border:3px solid #14020a;background:#fff;color:#14020a;cursor:pointer;
+  box-shadow:4px 5px 0 var(--red);opacity:0;pointer-events:none;transform:translateY(-20px);transition:opacity .5s,transform .5s var(--ease-spring)}
+body.on-dial .team-btn{opacity:1;pointer-events:auto;transform:none}
+.team-btn:hover{transform:translateY(-3px) rotate(-2deg)}
+body.group-open .team-btn{background:var(--red);color:#fff}
+.group{position:absolute;z-index:5;background:radial-gradient(ellipse at 50% 60%,rgba(20,2,10,.2),rgba(20,2,10,.6));pointer-events:none}
+.group .row{top:16vh;bottom:2vh;flex-wrap:wrap;align-content:center}
+.group .g{width:min(19vw,32vh)}
+/* gewone cursor: pointer op klikbare dingen, grab op de knop */
+#dial .logo, #dial .group .g, #dial .dialface .stop{cursor:pointer}
+
+/* ---------- geluidsknop ---------- */
+.sound{position:fixed;right:2.4vw;top:2.4vh;z-index:40;width:42px;height:42px;border-radius:50%;
+  border:1.5px solid rgba(246,227,220,.35);background:rgba(28,3,12,.55);color:var(--cream);cursor:pointer;
+  display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .5s,background .3s}
+body.on-dial .sound{opacity:.85;pointer-events:auto}
+.sound:hover{opacity:1;background:var(--red)}
+.sound svg{width:20px;height:20px}
+.sound .off{display:none}
+body.muted .sound .on{display:none}
+body.muted .sound .off{display:block}
+
+/* ---------- teamfoto: hover + klik ---------- */
+.group .g{pointer-events:auto}
+.group .row .br{display:none}
+.group h2{z-index:500;-webkit-text-stroke:3px #14020a;paint-order:stroke fill}
+.group .g.free{position:absolute;margin:0;translate:-50% -50%;aspect-ratio:3/4}
+.group:has(.g.free) .row{inset:0;display:block}
+.group .g > div{transition:transform .5s var(--ease-spring),filter .4s}
+.group .g:hover{z-index:200}
+.group .g:hover > div{transform:translateY(-4%) scale(1.12);filter:drop-shadow(0 0 22px var(--gc))}
+.group .g .gn{position:absolute;left:50%;bottom:4%;translate:-50% 0;white-space:nowrap;pointer-events:none;
+  font-family:"Bangers",sans-serif;font-size:clamp(16px,1.6vw,26px);letter-spacing:.04em;color:#14020a;background:#fff;
+  padding:.15em .6em;border:2.5px solid #14020a;border-radius:10px;box-shadow:3px 4px 0 var(--gc);
+  opacity:0;transform:translateY(10px) scale(.7);transition:opacity .25s,transform .4s var(--ease-spring)}
+.group .g:hover .gn{opacity:1;transform:none}
+
+/* ---------- laadscherm ---------- */
+.loader{position:fixed;inset:0;z-index:100;background:#1c030c;display:grid;place-items:center;transition:opacity .7s,visibility .7s}
+.loader.done{opacity:0;visibility:hidden}
+.loader .lk{position:relative;width:min(34vw,180px);aspect-ratio:1}
+.loader .lk .face{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 40% 30%,#ef7560 0%,var(--knob) 45%,#cf4f3c 100%);
+  box-shadow:inset 0 -8px 20px rgba(0,0,0,.18);animation:lspin 1.6s var(--ease-io) infinite}
+.loader .lk .face::after{content:"";position:absolute;left:50%;top:5%;width:8%;height:22%;margin-left:-4%;border-radius:99px;background:#fff3ee;
+  box-shadow:0 0 12px #fff}
+.loader .lk .glowl{position:absolute;inset:-25%;border-radius:50%;background:radial-gradient(circle,rgba(255,140,50,.45),transparent 65%);
+  animation:lglow 1.6s ease-in-out infinite}
+@keyframes lspin{to{transform:rotate(360deg)}}
+@keyframes lglow{50%{opacity:.35;transform:scale(.9)}}
+.loader p{position:absolute;top:calc(50% + min(34vw,180px)/2 + 30px);left:0;right:0;text-align:center;
+  font-size:12px;letter-spacing:.4em;text-transform:uppercase;font-weight:700;color:var(--cream);opacity:.7}
+.loader p b{color:var(--red)}
+
+/* ---------- rook uit de oven ---------- */
+.smoke{position:absolute;left:50%;top:50%;width:calc(var(--k)*.45);aspect-ratio:1;margin:calc(var(--k)*-.225);border-radius:50%;
+  pointer-events:none;z-index:-1;background:radial-gradient(circle,rgba(255,240,235,.35) 0%,rgba(255,240,235,.12) 45%,transparent 70%);
+}
+/* ---------- swoosh-transitie ---------- */
+.swoosh{position:fixed;inset:-50% -50%;z-index:30;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0 35%,var(--red) 35% 65%,transparent 65%);
+  transform:rotate(-27deg) translateX(-120%)}
+.swoosh.go{animation:swoosh 1.5s var(--ease-io)}
+@keyframes swoosh{from{transform:rotate(-27deg) translateX(-120%)}to{transform:rotate(-27deg) translateX(120%)}}
+
+/* ---------- TEAMLID (één superheld per pagina) ---------- */
+.hero-card{position:absolute;inset:0;z-index:5;pointer-events:none}
+.hero-card .fig{position:absolute;left:10vw;bottom:0;height:94vh;aspect-ratio:1482/1990;
+  opacity:0;transform:translateX(calc(var(--dir) * 55vw)) rotate(calc(var(--dir) * 10deg)) scale(.85);
+  transition:transform 1.7s var(--ease-out),opacity .9s}
+.hero-card.in .fig{opacity:1;transform:none}
+.hero-card.out .fig{opacity:0;transform:translateX(calc(var(--dir) * -45vw)) rotate(calc(var(--dir) * -8deg)) scale(.9);
+  transition:transform 1s var(--ease-io),opacity .7s .2s}
+.hero-card .float{width:100%;height:100%;animation:float 9s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-1%) rotate(.4deg)}}
+.hero-card .float > div{width:100%;height:100%}
+.hero-card img,.hero-card .float svg{width:100%;height:100%;object-fit:contain;object-position:bottom;
+  }
+
+/* tekstwolk */
+.info{position:absolute;left:max(52vw,calc(10vw + 66vh));right:4vw;top:12vh;z-index:8;display:flex;flex-direction:column;align-items:flex-start;gap:max(48px,5.5vh)}
+/* cartoon-wolk: geschulpte rand, dikke zwarte lijn, rode offset-schaduw */
+.bubble{position:relative;width:max-content;max-width:min(38vw,540px);z-index:7;
+  color:#14020a;padding:48px 72px 52px;text-align:center;
+  font-family:"Bangers",system-ui,sans-serif;font-weight:400;font-stretch:100%;letter-spacing:.03em;
+  font-size:clamp(20px,2vw,34px);line-height:1.1;
+  transform-origin:0% 80%;transform:scale(0);opacity:0}
+.bubble .cloud{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:-1}
+.bubble .cloud .sh{fill:var(--red);transform:translate(7px,8px)}
+.bubble .cloud .bg{fill:#fff;stroke:#14020a;stroke-width:4;stroke-linejoin:round}
+.bubble .q{position:relative;display:block}
+.bubble .dots3{position:absolute;left:4px;top:42%;width:0;height:0}
+.bubble .dots3 i{position:absolute;border-radius:50%;background:#fff;border:3.5px solid #14020a;
+  box-shadow:4px 5px 0 var(--red);transform:scale(0);transition:transform .5s var(--ease-spring)}
+.bubble .dots3 i:nth-child(1){width:26px;height:26px;left:-14px;top:0;transition-delay:1.05s}
+.bubble .dots3 i:nth-child(2){width:17px;height:17px;left:-40px;top:-14px;transition-delay:.95s}
+.bubble .dots3 i:nth-child(3){width:11px;height:11px;left:-60px;top:-26px;transition-delay:.85s}
+.hero-card.in .bubble .dots3 i{transform:scale(1)}
+.hero-card.in .bubble{opacity:1;transform:none;
+  animation:boing 1s 1.15s both, bubbleFloat 6s 2.4s ease-in-out infinite}
+@keyframes boing{0%{transform:scale(0) rotate(-12deg)}55%{transform:scale(1.12) rotate(3deg)}
+  75%{transform:scale(.95) rotate(-1.5deg)}90%{transform:scale(1.03)}100%{transform:none}}
+@keyframes bubbleFloat{0%,100%{translate:0 0}50%{translate:0 6px}}
+.bubble .q span{display:inline-block;opacity:0;transform:translateY(14px) scale(.4) rotate(-6deg);transition:transform .6s var(--ease-spring),opacity .3s}
+.hero-card.in .bubble .q span{opacity:1;transform:none}
+.hero-card.out .bubble{transform:scale(0);opacity:0;animation:none;transition:transform .35s,opacity .25s}
+
+/* naam + functie + bladeren */
+.hero-card .name{position:relative}
+.name h3{font-weight:900;font-stretch:125%;font-size:clamp(28px,4vw,72px);line-height:.95;color:#fff;
+  text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.name p{margin-top:.5em;font-size:clamp(13px,1.3vw,22px);font-stretch:115%;color:var(--cream);text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.name h3,.name p{clip-path:inset(0 100% 0 0);transition:clip-path 1.2s var(--ease-out)}
+.hero-card.in .name h3{clip-path:inset(-20% -5% -20% 0);transition-delay:.7s}
+.hero-card.in .name p{clip-path:inset(-20% -5% -20% 0);transition-delay:.9s}
+.hero-card.out .name h3,.hero-card.out .name p{transition:clip-path .3s}
+
+/* knop schuift opzij in de teamstand, blijft duidelijk op de voorgrond */
+.stage{transition:transform 1.4s var(--ease-out),top 1.4s var(--ease-io),left 1.4s var(--ease-io)}
+body.teams .stage{left:50%;top:calc(100% - var(--k)*1.0);transform:translate(-50%,-50%) scale(.82)}
+
+/* ---------- merk-schakelaar ---------- */
+.switcher{position:absolute;right:3vw;bottom:4vh;z-index:12;display:flex;flex-direction:column;align-items:flex-end;gap:12px;
+  transform:translateX(130%);transition:transform .9s var(--ease-out)}
+body.teams .switcher{transform:none;transition-delay:.6s}
+.switcher .cap{font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-weight:700;color:var(--cream);opacity:.75;
+  display:flex;align-items:center;gap:10px}
+.switcher .cap svg{width:20px;height:20px;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pill{font:inherit;font-stretch:120%;font-weight:700;font-size:13px;letter-spacing:.06em;cursor:pointer;
+  padding:.7em 1.2em;border-radius:99px;border:1.5px solid rgba(246,227,220,.35);color:var(--cream);background:rgba(28,3,12,.55);
+  transition:background .3s,border-color .3s,transform .3s var(--ease-spring)}
+.pill:hover{transform:translateY(-3px);border-color:var(--cream)}
+.pill.active{background:var(--red);border-color:var(--red);color:#fff}
+.reset{position:absolute;left:3vw;bottom:4vh;z-index:12;font:inherit;font-size:11px;letter-spacing:.35em;font-weight:700;
+  text-transform:uppercase;background:none;border:0;color:var(--cream);opacity:0;cursor:pointer;transition:opacity .5s;pointer-events:none}
+body.teams .reset{opacity:.7;pointer-events:auto}
+.reset:hover{opacity:1}
+
+.drag-hint{position:absolute;left:50%;top:auto;bottom:4vh;transform:translateX(-50%);z-index:4;
+  display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.35em;text-transform:uppercase;font-weight:700;
+  color:var(--cream);opacity:.8;transition:opacity .5s;white-space:nowrap}
+.drag-hint svg{width:34px;height:34px;color:var(--red);animation:wiggle 2s ease-in-out infinite}
+@keyframes wiggle{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(35deg)}}
+body.teams .drag-hint{opacity:0}
+
+.back-up{position:absolute;left:50%;top:1.6vh;transform:translateX(-50%);z-index:12;background:none;border:0;cursor:pointer;
+  width:30px;height:30px;opacity:.5}
+.back-up::before{content:"";position:absolute;left:8px;top:12px;width:12px;height:12px;border-left:2px solid var(--cream);border-top:2px solid var(--cream);transform:rotate(45deg)}
+body.teams .back-up{display:none}
+
+/* ---------- telefoon (staand) ---------- */
+@media (max-aspect-ratio:1/1){
+  .stage{--k:min(30vh,40vw);top:50%}
+    .dial-title{top:11vh;padding:0 16px;font-size:clamp(22px,6.4vw,44px)}
+  .dial-title .hint{display:none}
+  .drag-hint{top:auto;bottom:8vh;font-size:10px;letter-spacing:.25em}
+  .drag-hint svg{width:24px;height:24px}
+  .logo .lbl{display:none}
+  .team-label{top:2.2vh}
+  .team-label .inner{font-size:11px}
+  body.teams .stage{left:50%;top:calc(100% - var(--k)*.85);transform:translate(-50%,-50%) scale(.72)}
+  .hero-card .fig{left:50%;bottom:17vh;height:auto;width:min(84vw,62vh*.745);margin-left:calc(min(84vw,62vh*.745) / -2)}
+  .info{left:5vw;right:5vw;top:max(16px,3vh);gap:26px}
+  .name h3{font-size:clamp(22px,7vw,30px)!important}
+  .bubble{max-width:none;width:auto;font-size:clamp(15px,4.4vw,20px);padding:22px 34px 26px}
+  .bubble .dots3{left:46%;top:auto;bottom:0}
+  .bubble .dots3 i:nth-child(1){left:0;top:-6px;width:20px;height:20px}
+  .bubble .dots3 i:nth-child(2){left:-14px;top:18px;width:14px;height:14px}
+  .bubble .dots3 i:nth-child(3){left:-26px;top:36px;width:9px;height:9px}
+  .hero-card .name{max-width:none}
+  .name h3{font-size:clamp(22px,7vw,34px)}
+  .name p{font-size:clamp(12px,3.6vw,15px)}
+  .switcher{left:0;right:0;bottom:max(1.5vh,env(safe-area-inset-bottom));align-items:center}
+  .switcher .cap{display:none}
+  .pills{flex-wrap:nowrap;gap:6px}
+  .pill{font-size:12px;padding:.65em .95em}
+  .reset{display:none}
+  .hero-card .glow{left:50%;bottom:17vh;height:62vh;translate:-50% 0}
+  .group h2{top:calc(2.4vh + 6px);left:4vw;right:calc(4vw + 46px);font-size:clamp(24px,7.4vw,36px)}
+  .group h2{z-index:300}
+  .group .row{left:2vw;right:2vw;top:calc(2.4vh + 60px);bottom:calc(30vh + 6px);flex-wrap:wrap;align-content:center;align-items:flex-end;row-gap:0}
+  .group .g{width:min(19vw, calc((70vh - 80px) / 3 * .75));margin:0;flex:0 0 auto}
+  .group .row .br{display:block;flex-basis:100%;height:0}
+}
+body.instant *{transition:none!important}
+body.no-hero #hero,body.no-hero .back-up{display:none!important}
+.corner-logo{position:absolute;z-index:11;pointer-events:none;height:auto}
+.corner-logo.hl{left:2.4vw;top:2.4vh;width:clamp(110px,11.5vw,195px)}
+.corner-logo.oe{right:2.4vw;bottom:2.4vh;width:clamp(85px,8.2vw,140px)}
+body.shot *{transition:none!important;animation:none!important}
+body.shot .logo{opacity:1}
+body.shot .panels{display:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.2s!important}}
+</style>
+</head>
+<body class="on-dial no-hero">
+
+<!-- ================= HERO ================= -->
+<section id="hero" class="page">
+  <!-- vaste 16:9-dia (1910x1080) die als geheel in het venster wordt geschaald -->
+  <div class="slide" id="slide">
+    <svg class="slide-bg" viewBox="0 0 1910 1080" overflow="visible" aria-hidden="true">
+      <defs>
+        <linearGradient id="gTop" gradientUnits="userSpaceOnUse" x1="0" y1="300" x2="900" y2="0"><stop offset="0" stop-color="#3a0610"/><stop offset="1" stop-color="#7a0010"/></linearGradient>
+        <linearGradient id="gBot" gradientUnits="userSpaceOnUse" x1="1000" y1="1080" x2="1910" y2="700"><stop offset="0" stop-color="#2a0614"/><stop offset="1" stop-color="#8a0010"/></linearGradient>
+        <linearGradient id="pTop" gradientUnits="userSpaceOnUse" x1="0" y1="300" x2="700" y2="0"><stop offset="0" stop-color="#3a0610"/><stop offset="1" stop-color="#7a0010"/></linearGradient>
+        <linearGradient id="pBot" gradientUnits="userSpaceOnUse" x1="200" y1="1920" x2="1080" y2="1500"><stop offset="0" stop-color="#2a0614"/><stop offset="1" stop-color="#8a0010"/></linearGradient>
+      </defs>
+      <rect x="-3000" y="-3000" width="8000" height="8000" fill="#2a0614"/>
+      <g class="land"><polygon points="-3000,-3000 7364,-3000 -3000,1840" fill="url(#gTop)"/>
+      <polygon points="9597,-3000 9597,4000 -5392,4000" fill="url(#gBot)"/></g>
+      <g class="port"><polygon points="-3000,-3000 7067,-3000 -3000,2194" fill="url(#pTop)"/>
+      <polygon points="8800,-2634 8800,5000 -3000,5000 -3000,3455" fill="url(#pBot)"/></g>
+    </svg>
+    <div class="para">
+      <div class="vid-fallback"></div>
+      <!-- Zet je video in assets/hero.mp4 -->
+      <video id="heroVideo" autoplay muted loop playsinline preload="auto"></video>
+    </div>
+    <img class="hl-logo" src="assets/logos/havas-lemz.svg" alt="Havas Lemz">
+    <img class="hallo-logo" src="assets/logos/droetker.svg" alt="Dr. Oetker">
+  </div>
+  <img class="hallo-m" src="assets/logos/droetker.svg" alt="Dr. Oetker">
+  <button class="scroll-cue" id="scrollCue" aria-label="Scroll naar beneden">
+    <span class="sc-txt">Scroll om de teams<br>te ontdekken</span><span class="mouse"></span><span class="chev"></span>
+  </button>
+</section>
+
+<!-- ================= DRAAIKNOP ================= -->
+<section id="dial" class="page">
+  <div class="bg"><div class="slab a" id="slabA"></div><div class="slab b" id="slabB"></div><div class="grain"></div><div class="halftone"></div></div>
+  <img class="corner-logo hl" src="assets/logos/havas-lemz.svg" alt="Havas Lemz">
+  <img class="corner-logo oe" src="assets/logos/droetker.svg" alt="Dr. Oetker">
+  <button class="back-up" id="backUp" aria-label="Terug naar boven"></button>
+
+  <h1 class="dial-title">
+    <span class="ln"><span>Draai aan de knop</span></span>
+    <span class="ln sub"><span>en ontmoet de teams</span></span>
+  </h1>
+  <div class="team-label" hidden style="display:none"><span class="inner">Team <b id="teamName">Koopmans</b> <em id="teamCount">1 / 4</em></span></div>
+
+  <div id="members"></div>
+
+  <div class="stage" id="stage">
+    <div class="ticks" id="ticks"></div>
+    <div class="knob-shadow"></div>
+    <div class="knob-ring"></div>
+    <div class="oven"></div>
+    <div class="knob-pulse"></div>
+    <div class="knob" id="knob" tabindex="0" role="slider" aria-label="Kies een team" aria-valuemin="0" aria-valuemax="11" aria-valuenow="0">
+      <div class="grip l"></div><div class="grip r"></div><div class="pointer"></div>
+    </div>
+    <!-- logo's worden via JS geplaatst -->
+  </div>
+
+  <div class="drag-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M17 2v4h4"/></svg>
+    Sleep of klik op een logo
+  </div>
+
+  <button class="reset" id="reset">↺ Terug naar start</button>
+</section>
+
+<div class="loader" id="loader"><div class="lk"><div class="glowl"></div><div class="face"></div></div><p>Oven voorverwarmen <b id="loadPct">0%</b></p></div>
+<button class="sound" id="soundBtn" aria-label="Geluid aan/uit">
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
+</button>
+<div class="swoosh" id="swoosh"></div>
+
+<div class="panels" id="panels"><div></div><div></div><div></div><div></div></div>
+
+<script>
+/* =========================================================
+   CONTENT — pas hier namen, functies en afbeeldingen aan.
+   Afbeeldingen (liefst transparante PNG's) in assets/team/
+   Logo's in assets/logos/. Ontbrekende bestanden krijgen
+   automatisch een placeholder.
+   ========================================================= */
+const BRANDS = [
+  { id:"koopmans", name:"Koopmans", tick:"#FFD200", logo:"assets/logos/koopmans.png", color:"#E60001", suit:["#1d3d9c","#f2c230"],
+    team:[
+      { name:"Merien", role:"Creative Director", quote:"Move fast and bake things!", img:"assets/team/koopmansmerien.webp" },
+      { name:"Zilah", role:"Creative Producer", quote:"Ik bak een goede pie-chart.", img:"assets/team/koopmanszilah.webp" },
+      { name:"Sven", role:"Head of Design", quote:"Ik surf elk design naar de perfecte vorm!", img:"assets/team/koopmanssven.webp" },
+      { name:"Nouk", role:"Zone Director", quote:"Ik hou de boel warm én draaiende.", img:"assets/team/koopmansnouk.webp" },
+      { name:"Daan", role:"Copywriter", quote:"Ik strooi met goodness!", img:"assets/team/koopmansdaan.webp" },
+    ]},
+  { id:"bigamerican", name:"Big American", tick:"#E30613", logo:"assets/logos/bigamerican.png", wide:true, color:"#E60001", suit:["#0a2a66","#d81e2a"],
+    team:[
+      { name:"Michiel", role:"Strategy Director", quote:"On my way to a big brand!", img:"assets/team/americanmichiel.webp" },
+      { name:"Rein", role:"Creative Director", quote:"I'm in it for the dough!", img:"assets/team/americanrein.webp" },
+      { name:"Bas", role:"Stagiair Design", quote:"Elke dag een vers design uit de oven!", img:"assets/team/americanbas.webp" },
+    ]},
+  { id:"droetker", name:"Dr. Oetker", tick:"#1E5BC6", logo:"assets/logos/droetker.svg", color:"#E60001", suit:["#c8102e","#ffffff"],
+    team:[
+      { name:"Remco", role:"Executive Creative Director", quote:"Ik laat ideeën rijzen.", img:"assets/team/oetkerrem.webp" },
+      { name:"Ellen", scale:.95, role:"Director Business & Operations", quote:"Ik zorg dat het rijst én rendeert.", img:"assets/team/oetkerellen.webp" },
+      { name:"Kahraman", role:"Art Director", quote:"Ik breek de cake!!", img:"assets/team/oetkerkar.webp" },
+      { name:"Rowan", role:"Creative Producer", quote:"Ik sprinkle wat magie op elk project.", img:"assets/team/oetkerrowan.webp" },
+      { name:"Tim", role:"Head of Strategy", quote:"Ik slice elke uitdaging!", img:"assets/team/oetkertim.webp" },
+    ]},
+];
+/* hoek (graden, met de klok mee vanaf boven) per stand: 0 = uit */
+/* per merk 3 standen rond het logo (25% / 50% / 75% van een slag) → 9 personen */
+/* elke persoon = één streepje; aantal per merk volgt uit de teamlijst.
+   Alle streepjes gelijk verdeeld rondom (zoals een ovenknop), 0 = uit bovenaan */
+/* laatste stand (helemaal rond) = het hele team */
+const SLOTS = [...BRANDS.flatMap((b,bi)=>b.team.map((_,mi)=>({b:bi, m:mi}))), {group:true}];
+/* logo's op 25% / 50% / 75%; streepjes per merk verspreid rond die hoek; 360° = het hele team */
+const GAP = 20;
+const STOPS = [0, ...SLOTS.map(x=> x.group ? 360 : 90*(x.b+1) + (x.m-(BRANDS[x.b].team.length-1)/2)*GAP)];
+const LAST = STOPS.length-1;
+const stopInfo = i => SLOTS[i-1];
+const firstStop = b => 1 + SLOTS.findIndex(x=>x.b===b);
+const brandAngle = b => { const a=SLOTS.map((x,k)=>x.b===b?STOPS[k+1]:null).filter(x=>x!=null); return (a[0]+a[a.length-1])/2; };
+
+/* ---------------- placeholders ---------------- */
+function logoFallback(b){
+  const shield = `<path d="M10 22 Q50 2 90 22 L84 86 Q50 98 16 86 Z" fill="${b.id==='bigamerican'?'#0a2a66':'#d9161c'}" stroke="#f5c542" stroke-width="3"/>`;
+  const words = b.name.toUpperCase().split(" ");
+  const t = words.map((w,i)=>`<text x="50" y="${words.length>1?48+i*20:60}" text-anchor="middle" font-family="Archivo" font-weight="900" font-stretch="75%" font-size="${w.length>6?15:19}" fill="#fff">${w}</text>`).join("");
+  return `<svg viewBox="0 0 100 100">${shield}<path d="M40 20 l4 -7 l6 5 l6 -5 l4 7 z" fill="#f5c542"/>${t}</svg>`;
+}
+function personFallback(b, i){
+  const [c1,c2] = b.suit;
+  return `<svg viewBox="0 0 200 300" preserveAspectRatio="xMidYMax meet">
+    <path d="M40 120 Q20 220 5 295 L80 260 Z" fill="${c2}" opacity=".9"/>
+    <path d="M160 120 Q180 220 195 295 L120 260 Z" fill="${c2}" opacity=".9"/>
+    <path d="M55 115 Q100 95 145 115 L150 230 Q100 245 50 230 Z" fill="${c1}"/>
+    <path d="M70 125 L130 125 L120 175 L80 175 Z" fill="${c2}"/>
+    <rect x="62" y="225" width="30" height="75" rx="10" fill="${c1}"/><rect x="108" y="225" width="30" height="75" rx="10" fill="${c1}"/>
+    <path d="M55 120 Q25 140 20 95" stroke="${c1}" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <path d="M145 120 Q175 140 182 95" stroke="${c1}" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <circle cx="100" cy="72" r="32" fill="#e8c2a8"/>
+    <text x="100" y="155" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="11" fill="${c1}">FOTO ${i+1}</text>
+  </svg>`;
+}
+function imgOr(src, fallbackHTML, alt){
+  const wrap = document.createElement("div");
+  wrap.style.cssText = "width:100%;height:100%";
+  const img = new Image(); img.alt = alt; img.src = src;
+  img.onerror = () => { wrap.innerHTML = fallbackHTML; };
+  wrap.appendChild(img);
+  return wrap;
+}
+
+const video = document.getElementById("heroVideo");
+video.addEventListener("error", () => video.remove());
+video.addEventListener("loadeddata", () => document.querySelector(".vid-fallback").style.display="none");
+
+/* parallax + zwevend parallellogram */
+/* dia schalen zodat hij altijd volledig in beeld past */
+const slide=document.getElementById("slide");
+function fitBox(el, w, h){            // tekst exact in kader van w x h (ontwerp-px)
+  el.style.transform="none";
+  const r=el.getBoundingClientRect(), k=slideScale;
+  el.style.transformOrigin="0 0";
+  el.style.transform=`scale(${w/(r.width/k)},${h/(r.height/k)})`;
+}
+let slideScale=1;
+const hero=document.getElementById("hero");
+function fitSlide(){
+  const portrait = innerHeight > innerWidth*1.05;
+  hero.classList.toggle("portrait", portrait);
+  const W = portrait?1080:1910, H = portrait?1920:1080;
+  slideScale=Math.min(innerWidth/W, innerHeight/H);
+  slide.style.transform=`scale(${slideScale}) translate(-50%,-50%)`;
+  if (portrait){
+  } else {
+  }
+}
+fitSlide(); addEventListener("resize",fitSlide);
+document.fonts.ready.then(fitSlide); document.fonts.addEventListener?.("loadingdone",fitSlide);
+
+/* ---------------- pagina navigatie ---------------- */
+let onDial=true, navLock=false;
+function goDial(v){
+  if (!v) return;   // homepagina is weg
+  if (v===onDial || navLock) return;
+  navLock=true; onDial=v;
+  document.body.classList.toggle("on-dial", v);
+  if (!v) setStop(0, true);
+  setTimeout(()=>navLock=false, 1300);
+}
+/* scrollen met muiswiel, trackpad (ook langzaam) en Firefox (regels i.p.v. pixels) */
+let pageWheel=0, pageWheelT=0;
+addEventListener("wheel", e => {
+  if (e.target.closest && e.target.closest("#knob")) return;
+  if (onDial && current>0) return;   // in de teamstand bedien je alleen de knop
+  const dy = e.deltaY * (e.deltaMode===1 ? 33 : e.deltaMode===2 ? innerHeight : 1);
+  if (performance.now()-pageWheelT > 400) pageWheel = 0;
+  pageWheelT = performance.now(); pageWheel += dy;
+  if (pageWheel > 30){ pageWheel=0; goDial(true); }
+  else if (pageWheel < -30){ pageWheel=0; if (onDial && current===0) goDial(false); }
+}, {passive:true});
+let ty=null;
+let tx=null;
+let onStage=false;
+addEventListener("touchstart", e => { ty = e.touches[0].clientY; tx = e.touches[0].clientX; onStage = !!e.target.closest("#stage"); }, {passive:true});
+addEventListener("touchend", e => {
+  if (ty==null || dragging) return;
+  const dx = tx - e.changedTouches[0].clientX;
+  const d = ty - e.changedTouches[0].clientY; ty=null;
+  if (onStage || (onDial && current>0)) return;
+  if (d>40) goDial(true); else if (d<-40 && current===0) goDial(false);
+});
+/* presentatiemodus: spatie / pijl rechts / PageDown (presenter-clicker) = volgende,
+   pijl links / PageUp / Backspace = vorige, F = volledig scherm */
+let keyLock=false;
+addEventListener("keydown", e => {
+  if (e.target.closest && e.target.closest("input,textarea")) return;
+  const next = [" ","ArrowRight","PageDown","ArrowDown","Enter"].includes(e.key);
+  const prev = ["ArrowLeft","PageUp","ArrowUp","Backspace"].includes(e.key);
+  if (e.key==="f" || e.key==="F"){
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.();
+    return;
+  }
+  if (e.key==="Escape"){ setStop(0); return; }
+  if (!next && !prev) return;
+  e.preventDefault();
+  if (keyLock) return; keyLock=true; setTimeout(()=>keyLock=false, 500);
+  if (!onDial){ if (next) goDial(true); return; }
+  if (next) setStop(current===LAST ? 1 : current+1);
+  else if (current>0) setStop(current-1);
+  else goDial(false);
+});
+document.getElementById("scrollCue").onclick = () => goDial(true);
+document.getElementById("backUp").onclick = () => goDial(false);
+document.getElementById("reset").onclick = () => setStop(0);
+
+/* ---------------- knop opbouwen ---------------- */
+const stage = document.getElementById("stage");
+const knob = document.getElementById("knob");
+/* wijzerplaat: per merk een boog met 3 duidelijke stops (1-2-3) */
+const ticksEl = document.getElementById("ticks");
+const NS="http://www.w3.org/2000/svg";
+const KR = 100/1.44;                 // knopstraal in svg-eenheden (container = 1.44 × knop)
+const R1 = KR*1.1, R2 = KR*1.34;
+const pt = (deg, r) => [Math.sin(deg*Math.PI/180)*r, -Math.cos(deg*Math.PI/180)*r];
+const face = document.createElementNS(NS,"svg");
+face.setAttribute("viewBox","-100 -100 200 200"); face.setAttribute("class","dialface");
+const line = (deg, r1, r2, cls, i) => { const [x1,y1]=pt(deg,r1), [x2,y2]=pt(deg,r2);
+  return `<line class="${cls}" ${i!=null?`data-i="${i}"`:""} x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
+// kort streepje = uit; daarna 9 duidelijke streepjes, 3 per merk
+let html = line(0, R1, KR*1.22, "zero");
+for (let i=1;i<STOPS.length;i++) html += line(STOPS[i], R1, R2, "stop", i);
+face.innerHTML = html; ticksEl.appendChild(face);
+/* onzichtbaar, groot klikgebied rond elk streepje */
+let hits=""; for (let i=1;i<STOPS.length;i++) hits += line(STOPS[i], R1-6, R2+16, "hit", i);
+face.insertAdjacentHTML("beforeend", hits);
+face.querySelectorAll(".hit").forEach(h=>{
+  const st=()=>face.querySelector(`.stop[data-i="${h.dataset.i}"]`);
+  h.addEventListener("click",()=>setStop(+h.dataset.i));
+  h.addEventListener("pointerenter",()=>st().classList.add("hover"));
+  h.addEventListener("pointerleave",()=>st().classList.remove("hover"));
+});
+const stopEls=[...face.querySelectorAll(".stop")];
+stopEls.forEach(e=>e.addEventListener("click",()=>setStop(+e.dataset.i)));
+stopEls.forEach(e=>{ const x=stopInfo(+e.dataset.i); if (x.group) e.classList.add("group-tick"); else e.style.setProperty("--c", BRANDS[x.b].tick); });
+/* kleurring rond de knop */
+const RING_R = KR*1.04, RING_C = 2*Math.PI*RING_R;
+face.insertAdjacentHTML("afterbegin", `<circle class="ring-bg" r="${RING_R}"/><circle class="ring" r="${RING_R}" transform="rotate(-90)" stroke-dasharray="${RING_C}" stroke-dashoffset="${RING_C}"/>`);
+const ringEl = face.querySelector(".ring");
+ticksEl.style.pointerEvents="none";
+let nearIdx=-1;
+function updateFace(){
+  const n = dragging ? nearestStop(angle) : -1;
+  if (n!==nearIdx){
+    if (dragging && n>0 && nearIdx!==-1 && navigator.vibrate) navigator.vibrate(8);
+    nearIdx=n;
+  }
+  stopEls.forEach(e=>{ const i=+e.dataset.i; e.classList.toggle("on", i===current && !dragging); e.classList.toggle("near", i===n); });
+}
+const logos = BRANDS.map((b,i) => {
+  const el = document.createElement("button");
+  el.className = "logo" + (b.wide ? " wide" : ""); el.setAttribute("aria-label", "Team "+b.name);
+  const ang = (brandAngle(i)-90) * Math.PI/180;   // 0 = rechts
+  const r = 0.92; // in eenheden van knopdiameter
+  el.style.transform = `translate(calc(var(--k) * ${Math.cos(ang)*r}), calc(var(--k) * ${Math.sin(ang)*r}))`;
+  el.appendChild(imgOr(b.logo, logoFallback(b), b.name));
+  const lbl = document.createElement("span"); lbl.className="lbl"; lbl.textContent=b.name; el.appendChild(lbl);
+  el.onclick = () => stepForward();   // klik op logo = 1 stap vooruit
+  stage.appendChild(el); return el;
+});
+
+const pills = [];
+
+/* ---------------- knop fysica ---------------- */
+let angle = 0, target = 0, vel = 0, current = 0, dragging = false;
+/* ---------------- geluid (Web Audio, geen bestanden nodig) ---------------- */
+let actx=null, muted=false;
+try { muted = localStorage.getItem("koopmans-muted")==="1"; } catch(e){}
+document.body.classList.toggle("muted", muted);
+function audio(){ if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } }
+  if (actx && actx.state==="suspended") actx.resume(); return actx; }
+/* iOS: audio alleen ontgrendelen binnen een tik, en via een stil <audio>-element ook met stil-schakelaar */
+try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch(e){}
+let unlocked=false;
+function unlockAudio(){
+  const a=audio(); if(!a || unlocked) return;
+  const b=a.createBuffer(1,1,22050), src=a.createBufferSource(); src.buffer=b; src.connect(a.destination); src.start(0);
+  if (a.state==="running") unlocked=true;
+  ensureSnd();
+}
+["pointerdown","touchend","keydown"].forEach(ev=>addEventListener(ev, unlockAudio, {passive:true, capture:true}));
+/* tabblad weg = alles pauzeren (geluid, rook) zodat de browser niet blijft rekenen */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden){ if (actx && actx.state==="running") actx.suspend(); clearInterval(smokeTimer); smokeTimer=null; }
+});
+addEventListener("pagehide", () => { try{ actx && actx.close(); }catch(e){} actx=null; clearInterval(smokeTimer); });
+/* echte geluidsbestanden (assets/sounds); val terug op het gesynthetiseerde geluid */
+const SND = {};
+function loadSnd(name, url){
+  fetch(url).then(r=>r.arrayBuffer()).then(b=>{ const a=audio(); return a && a.decodeAudioData(b); })
+    .then(buf=>{ if(buf) SND[name]=buf; }).catch(()=>{});
+}
+let sndLoaded=false;
+function ensureSnd(){ if(sndLoaded) return; sndLoaded=true; loadSnd("tick","assets/sounds/tick.wav"); loadSnd("ding","assets/sounds/ding.wav"); }
+const playing = {};
+function playSnd(name, vol=1){
+  const a=audio(); const buf=SND[name]; if(!a||!buf) return false;
+  try { playing[name] && playing[name].stop(); } catch(e){}
+  const src=a.createBufferSource(), g=a.createGain(); src.buffer=buf; g.gain.value=vol;
+  src.connect(g).connect(a.destination); src.start(); playing[name]=src; return true;
+}
+function ovenClick(){
+  if (muted) return; ensureSnd(); if (playSnd("tick", .8)) return;
+  const a=audio(); if(!a) return; const t=a.currentTime;
+  // korte mechanische klik: ruisburst door bandpass + laag tikje
+  const len=Math.floor(a.sampleRate*.03), buf=a.createBuffer(1,len,a.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,6);
+  const src=a.createBufferSource(); src.buffer=buf;
+  const bp=a.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=2400; bp.Q.value=1.2;
+  const g=a.createGain(); g.gain.value=.55;
+  src.connect(bp).connect(g).connect(a.destination); src.start(t);
+  const o=a.createOscillator(), og=a.createGain(); o.frequency.setValueAtTime(180,t); o.frequency.exponentialRampToValueAtTime(70,t+.04);
+  og.gain.setValueAtTime(.25,t); og.gain.exponentialRampToValueAtTime(.001,t+.05); o.connect(og).connect(a.destination); o.start(t); o.stop(t+.06);
+}
+function ovenDing(){
+  if (muted) return; ensureSnd(); if (playSnd("ding", 1)) return;
+  const a=audio(); if(!a) return; const t=a.currentTime+.05;
+  [[1568,1],[3136,.35],[4704,.12]].forEach(([f,v])=>{   // bel-achtige harmonischen
+    const o=a.createOscillator(), g=a.createGain(); o.type="sine"; o.frequency.value=f;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.32*v,t+.008); g.gain.exponentialRampToValueAtTime(.0008,t+2.2);
+    o.connect(g).connect(a.destination); o.start(t); o.stop(t+2.3);
+  });
+}
+document.getElementById("soundBtn").onclick = () => {
+  muted=!muted; document.body.classList.toggle("muted", muted);
+  try { localStorage.setItem("koopmans-muted", muted?"1":"0"); } catch(e){}
+  if(!muted){ audio(); ovenClick(); }
+};
+let clickIdx=0;
+
+let pmx=0,pmy=0,pcx=0,pcy=0;
+addEventListener("pointermove", e => { if (e.pointerType==="mouse"){ pmx = e.clientX/innerWidth*2-1; pmy = e.clientY/innerHeight*2-1; } });
+addEventListener("deviceorientation", e => { if (e.gamma==null) return; pmx = Math.max(-1,Math.min(1,e.gamma/25)); pmy = Math.max(-1,Math.min(1,(e.beta-45)/25)); });
+/* render-lus: doet alleen werk als er echt iets verandert (scheelt veel rekenkracht) */
+const membersEl0 = document.getElementById("members");
+let lastA=null, lastPx=null, lastRing=null, lastHeat=null;
+function render(){
+  if (!dragging){
+    vel += (target-angle)*0.035; vel *= 0.72; vel = Math.max(-4.5, Math.min(4.5, vel)); angle += vel;
+    if (Math.abs(target-angle) < .02 && Math.abs(vel) < .02){ angle = target; vel = 0; }
+  }
+  if (angle !== lastA){
+    lastA = angle;
+    knob.style.transform = `rotate(${angle}deg)`;
+    updateFace();
+    ringEl.setAttribute("stroke-dashoffset", RING_C*(1-Math.max(0, Math.min(1, angle/360))));
+    const n = nearestStop(angle), x = n>0 ? stopInfo(n) : null;
+    if (n!==clickIdx && Math.abs(STOPS[n]-angle) < 4){ clickIdx=n; ovenClick(); }
+    const ring = x ? (x.group ? "#ffffff" : BRANDS[x.b].tick) : "#E60001";
+    if (ring!==lastRing){ lastRing=ring; ringEl.style.setProperty("--ring", ring); }
+    const heat = (Math.max(0, Math.min(1, angle/STOPS[LAST]))).toFixed(2);
+    if (heat!==lastHeat){ lastHeat=heat; stage.style.setProperty("--heat", heat); }
+  }
+  pcx += (pmx-pcx)*.06; pcy += (pmy-pcy)*.06;
+  const px = pcx.toFixed(2)+","+pcy.toFixed(2);
+  const sh = membersEl0.querySelector(".hero-card.in");
+  if (px!==lastPx && sh){ lastPx=px;           // diepte alleen op de held-kaart, niet de hele pagina
+    sh.style.setProperty("--px", pcx.toFixed(2)); sh.style.setProperty("--py", pcy.toFixed(2)); }
+  requestAnimationFrame(render);
+}
+render();
+
+function nearestStop(a){ return STOPS.reduce((best,s,i)=>Math.abs(s-a)<Math.abs(STOPS[best]-a)?i:best,0); }
+
+let lastAng=0;
+const ptrAngle = e => {
+  const r = knob.getBoundingClientRect();
+  return Math.atan2(e.clientY-(r.top+r.height/2), e.clientX-(r.left+r.width/2))*180/Math.PI;
+};
+knob.addEventListener("pointerdown", e => {
+  dragging=true; knob.setPointerCapture(e.pointerId); lastAng = ptrAngle(e); dragStart = angle; raw = angle;
+});
+knob.addEventListener("pointermove", e => {
+  if (!dragging) return;
+  const r = knob.getBoundingClientRect(), dist = Math.hypot(e.clientX-(r.left+r.width/2), e.clientY-(r.top+r.height/2));
+  const a = ptrAngle(e); let d = a-lastAng;
+  if (d>180) d-=360; if (d<-180) d+=360;
+  lastAng = a;
+  if (dist > r.width*.62){                       // muis buiten de knop: direct stoppen
+    dragging=false; vel=0;
+    try{ knob.releasePointerCapture(e.pointerId); }catch(_){}
+    if (Math.abs(angle-dragStart) < 6) target = STOPS[current]; else setStop(nearestStop(angle));
+    return;
+  }
+  if (dist < r.width*.18) return;                 // vlak bij het midden: hoek springt, negeren
+  d = Math.max(-8, Math.min(8, d)) * .75;         // trager en geen sprongen
+  raw = Math.max(-8, Math.min(STOPS[LAST]+12, raw + d));
+  // magnetisch: binnen 7° van een stop trekt de knop ernaartoe
+  const n = nearestStop(raw), off = raw - STOPS[n];
+  angle = Math.abs(off) < 7 ? STOPS[n] + off*0.25 : raw;
+});
+let dragStart=0, raw=0;
+function stepForward(){ setStop(current>=LAST ? 1 : current+1); }
+const endDrag = () => {
+  if(!dragging) return; dragging=false; vel=0;
+  if (Math.abs(angle-dragStart) < 6) { stepForward(); return; }   // klik op de knop = 1 stap vooruit
+  setStop(nearestStop(angle));
+};
+knob.addEventListener("pointerup", endDrag);
+knob.addEventListener("pointercancel", endDrag);
+knob.addEventListener("click", e => { if (Math.abs(angle-target)<2 && !dragging) {} });
+let wheelAcc=0;
+knob.addEventListener("wheel", e => {
+  e.preventDefault(); if (navLock) return;
+  wheelAcc += e.deltaY; if (Math.abs(wheelAcc) < 60) return;
+  const d = wheelAcc>0?1:-1; wheelAcc = 0;
+  navLock = true; setTimeout(()=>navLock=false, 1200);
+  setStop(Math.max(0, Math.min(LAST, current + d)));
+}, {passive:false});
+knob.addEventListener("keydown", e => { if (e.key==="Enter") setStop(current%LAST+1); });
+
+/* ---------------- standen & teams ---------------- */
+const membersEl = document.getElementById("members");
+let shown = null;
+
+function burst(color){
+  const n = 26;
+  for (let i=0;i<n;i++){
+    const s = document.createElement("div"); s.className="spark";
+    const a = Math.random()*Math.PI*2, dist = 120+Math.random()*260, size = 4+Math.random()*12;
+    s.style.cssText += `width:${size}px;height:${size}px;margin:${-size/2}px;background:${i%3?color:'#f5c542'}`;
+    stage.appendChild(s);
+    s.animate([
+      {transform:"translate(0,0) scale(1)",opacity:1},
+      {transform:`translate(${Math.cos(a)*dist}px,${Math.sin(a)*dist}px) scale(0)`,opacity:0}
+    ],{duration:900+Math.random()*500,easing:"cubic-bezier(.16,1,.3,1)"}).onfinish=()=>s.remove();
+  }
+}
+/* stripvakken klappen dicht en weer open */
+function panels(){
+  [...document.querySelectorAll("#panels div")].forEach((d,k)=>{
+    d.animate([{transform:"scaleY(0)"},{transform:"scaleY(1)",offset:.45},{transform:"scaleY(1)",offset:.55},{transform:"scaleY(0)"}],
+      {duration:1100, delay:k*60, easing:"cubic-bezier(.77,0,.18,1)"});
+  });
+}
+/* korte snelheidslijnen in de vliegrichting */
+function speedLines(dir){
+  const box = document.createElement("div"); box.className="speed";
+  document.getElementById("dial").appendChild(box);
+  for (let k=0;k<14;k++){
+    const l=document.createElement("i"), w=12+Math.random()*22;
+    l.style.cssText=`top:${8+Math.random()*84}%;left:${-w}vw;width:${w}vw`;
+    box.appendChild(l);
+    l.animate([{transform:"translateX(0)",opacity:0},{opacity:.8,offset:.3},{transform:`translateX(${(100+w)*(dir>0?-1:1)*-1}vw)`,opacity:0}],
+      {duration:700+Math.random()*400, delay:Math.random()*250, easing:"cubic-bezier(.2,.6,.3,1)"});
+    if (dir<0){ l.style.left="auto"; l.style.right=`${-w}vw`; }
+  }
+  setTimeout(()=>box.remove(),1500);
+}
+/* groepsfoto met alle helden */
+let groupEl=null;
+function showGroup(){
+  hideGroup();
+  const g=document.createElement("div"); g.className="group";
+  const all = BRANDS.flatMap((b,bi)=>b.team.map((p,mi)=>({b,p,mi})));
+  const mid=(all.length-1)/2;
+  g.innerHTML = `<h2>Ping! Het team staat klaar</h2><div class="row"></div>`;
+  const row=g.querySelector(".row");
+  all.forEach((x,k)=>{
+    const d=document.createElement("div"); d.className="g";
+    const off=Math.abs(k-mid)/mid;
+    d.style.cssText=`--h:${60-off*16};--z:${100-Math.round(off*50)};--y:${off*-2}vh;--r:${(k-mid)*1.2}deg;--d:${(.15+Math.abs(k-mid)*.08).toFixed(2)}s;--fd:${-k*.7}s`;
+    d.appendChild(imgOr(x.p.img.replace(".webp","-sm.webp"), personFallback(x.b,x.mi), x.p.name));
+    d.style.setProperty("--gc", x.b.tick);
+    const gn=document.createElement("span"); gn.className="gn"; gn.textContent=x.p.name; d.appendChild(gn);
+    d.onclick = () => setStop(k+1);
+    row.appendChild(d);
+    if (innerWidth > innerHeight*1.05 && COLLAGE[k]){        // desktop: vrije collage rond de knop
+      const [cx,cy,w,r] = COLLAGE[k];
+      d.classList.add("free");
+      d.style.cssText += `;left:${cx}%;top:${cy}%;width:${w}vw;--r:${r}deg;--y:0;--z:${10+((k*7)%13)}`;
+    }
+    if (k===4 || k===8){ const br=document.createElement("i"); br.className="br"; row.appendChild(br); }
+  });
+  membersEl.appendChild(g); groupEl=g; smoke(true); document.body.classList.add("group-open");
+  void g.offsetWidth; setTimeout(()=>g.classList.add("in"),30);
+}
+function toggleGroup(){ if (groupEl) hideGroup(); else { panels(); setTimeout(showGroup,450); } }
+let smokeTimer=null;
+function puff(){
+  if (document.hidden || stage.querySelectorAll(".smoke").length > 8) return;
+  const p=document.createElement("div"); p.className="smoke"; stage.appendChild(p);
+  const x=(Math.random()-.5)*60, drift=(Math.random()-.5)*120, sc=1.4+Math.random()*1.2, dur=3200+Math.random()*1600;
+  p.animate([{transform:`translate(${x}px,-20px) scale(.3)`,opacity:0},{opacity:.9,offset:.2},
+    {transform:`translate(${x+drift}px,-${260+Math.random()*120}px) scale(${sc})`,opacity:0}],{duration:dur,easing:"cubic-bezier(.2,.6,.4,1)"}).onfinish=()=>p.remove();
+}
+function smoke(on){
+  clearInterval(smokeTimer); smokeTimer=null;
+  if (on){ for(let k=0;k<4;k++) setTimeout(puff,k*180); smokeTimer=setInterval(puff,650); }
+}
+/* collage-posities (midden x %, midden y %, breedte vw, draaiing) — vrij van titel en knop */
+const COLLAGE = [
+  [ 8,36,16,-6], [22,33,12, 5], [36,38,13,-3], [50,35,10, 4], [64,38,14,-5], [80,34,14, 6], [94,38,13, 4],
+  [27,58,10, 8],                                   // Bas: iets kleiner dan de rest
+  [10,72,19, 5], [24,87,13,-6], [76,62,13,-7], [80,86,15, 4], [94,70,15,-4]
+];
+function hideGroup(){
+  smoke(false);
+  if(!groupEl) return; const g=groupEl; groupEl=null; document.body.classList.remove("group-open");
+  g.classList.remove("in"); g.classList.add("out"); setTimeout(()=>g.remove(),900);
+}
+
+function swoosh(){
+  const sw = document.getElementById("swoosh");
+  sw.classList.remove("go"); void sw.offsetWidth; sw.classList.add("go");
+}
+
+let brandIdx=-1, memberIdx=0, memberLock=false;
+/* geschulpte wolkvorm (bulten rond een ellips) */
+const cloudPath = (() => {
+  const n=16, cx=100, cy=50, rx=94, ry=44; let d="";
+  const P=[...Array(n)].map((_,i)=>{ const a=i/n*Math.PI*2 + .2; return [cx+Math.cos(a)*rx*(i%2?1:.97), cy+Math.sin(a)*ry*(i%2?1:.95)]; });
+  P.forEach(([x,y],i)=>{ const [nx,ny]=P[(i+1)%n]; const r=Math.hypot(nx-x,ny-y)*.62;
+    d += (i?"":`M${x.toFixed(1)} ${y.toFixed(1)}`) + ` A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${nx.toFixed(1)} ${ny.toFixed(1)}`; });
+  return d+"Z";
+})();
+const tailSVG = `<svg class="cloud" viewBox="0 0 200 100" preserveAspectRatio="none"><path class="sh" d="${cloudPath}"/><path class="bg" d="${cloudPath}" vector-effect="non-scaling-stroke"/></svg>`;
+
+function hideCard(dir){
+  if (!shown) return;
+  const old = shown; shown = null;
+  old.style.setProperty("--dir", dir);
+  old.classList.remove("in"); old.classList.add("out");
+  setTimeout(()=>old.remove(), 1300);
+}
+function showMember(bi, mi, dir=1){
+  hideCard(dir);
+  brandIdx = bi; memberIdx = mi;
+  if (bi<0) return;
+  const b = BRANDS[bi], p = b.team[mi];
+  const card = document.createElement("div"); card.className = "hero-card";
+  card.style.setProperty("--dir", dir);
+  card.style.setProperty("--brand", b.tick);
+  card.dataset.scale = p.scale || 1;
+  card.innerHTML = `
+    <div class="glow"></div>
+    <div class="fig"><div class="float"></div></div>
+    <div class="info"><div class="name"><h3></h3><p></p></div>
+    <div class="bubble"><span class="q"></span>${tailSVG}<span class="dots3"><i></i><i></i><i></i></span></div></div>`;
+  card.querySelector(".float").appendChild(imgOr(p.img, personFallback(b,mi), p.name));
+  const im = card.querySelector(".float img");
+  if (im){ const setR=()=>{ if(im.naturalWidth){ card.dataset.ratio = im.naturalWidth/im.naturalHeight;
+      card.querySelector(".fig").style.aspectRatio = card.dataset.ratio; fitFig(card); } };
+    im.complete ? setR() : im.addEventListener("load", setR); }
+  card.querySelector(".q").innerHTML = (p.quote||"").split(" ").map((w,i)=>`<span style="transition-delay:${1.5+i*.09}s">${w.replace(/</g,"&lt;")}</span>`).join(" ");
+  if (!p.quote) card.querySelector(".bubble").remove();
+  card.querySelector("h3").textContent = p.name;
+  requestAnimationFrame(()=>fitFig(card));
+  card.querySelector(".name p").textContent = p.role;
+  membersEl.appendChild(card); shown = card;
+  void card.offsetWidth; setTimeout(()=>card.classList.add("in"), 30);
+}
+/* scrollen/swipen in de teamstand = knop naar volgend/vorig merk */
+function stepMember(d){
+  if (memberLock) return;
+  memberLock = true; setTimeout(()=>memberLock=false, 900);
+  setStop(Math.max(0, Math.min(LAST, current + d)));
+}
+/* telefoon: held precies tussen tekstwolk en knop laten passen */
+function fitFig(card){
+  if (!card) return;
+  const fig=card.querySelector(".fig"), glow=card.querySelector(".glow"), info=card.querySelector(".info");
+  const ratio = +card.dataset.ratio || .745, sc = +card.dataset.scale || 1;
+  if (innerHeight <= innerWidth*1.0){
+    // laptop: held gecentreerd in de ruimte links van naam/quote, verticaal mooi in beeld
+    const areaL = innerWidth*.03, areaW = Math.max(200, info.offsetLeft - innerWidth*.03 - 20);
+    let h = Math.min(innerHeight*.9, areaW/ratio) * sc;
+    h = Math.min(h, innerHeight*.96);
+    const w = h*ratio;
+    const left = areaL + (areaW - w)/2, top = Math.max(innerHeight*.03, (innerHeight - h)*.55);
+    [fig,glow].forEach(e=>{ if(!e) return; e.removeAttribute("style"); Object.assign(e.style,{aspectRatio:ratio, height:h+"px", width:w+"px",
+      left:left+"px", top:top+"px", bottom:"auto"}); });
+    return;
+  }
+  const top = info.offsetTop + info.offsetHeight + 6;
+  const knobR = stage.offsetHeight*.72/2;               // knop in teamstand (scale .72)
+  const bottomLimit = innerHeight - knobR*1.1;          // voeten mogen achter de knop vallen
+  let h = Math.max(120, bottomLimit - top);
+  let w = h*ratio; if (w > innerWidth*.92){ w = innerWidth*.92; h = w/ratio; }
+  h *= sc; w *= sc;
+  [fig,glow].forEach(e=>{ if(!e) return; e.style.top=top+"px"; e.style.bottom="auto"; e.style.height=h+"px"; e.style.width=w+"px";
+    e.style.left="50%"; e.style.marginLeft=(-w/2)+"px"; e.style.translate="0 0"; });
+}
+addEventListener("resize",()=>fitFig(shown));
+let lastDir=1;
+
+
+function setStop(i, silent=false, fromDrag=false){
+  if (!fromDrag) target = STOPS[i];
+  else target = STOPS[i];
+  if (i === current) return;
+  const prev = current; current = i;
+  lastDir = i>=prev ? 1 : -1;
+  knob.setAttribute("aria-valuenow", i);
+  const info = i>0 ? stopInfo(i) : null, prevB = prev>0 ? (stopInfo(prev).group ? -2 : stopInfo(prev).b) : -1;
+  logos.forEach((l,j)=>l.classList.toggle("active", !!info && j===info.b));
+  document.body.classList.toggle("teams", i>0);
+  // achtergrond-vlakken verschuiven per stand
+  const shift = i*6;
+  document.getElementById("slabA").style.transform = `rotate(${-27+shift*.3}deg) translateX(${shift}vw)`;
+  document.getElementById("slabB").style.transform = `rotate(${-27-shift*.3}deg) translateX(${-shift}vw)`;
+  if (info && info.group){
+    if (!silent){ panels(); burst("#f5c542"); }
+    ovenDing();
+    hideCard(lastDir); setTimeout(showGroup, silent ? 0 : 450);
+    return;
+  }
+  hideGroup();
+  if (i>0){
+    document.getElementById("teamName").textContent = BRANDS[info.b].name;
+    document.getElementById("teamCount").textContent = `${info.m+1} / ${BRANDS[info.b].team.length}`;
+    if (!silent){ burst(BRANDS[info.b].tick); if (prevB!==-1 && prevB!==info.b) panels(); else speedLines(lastDir); }
+    if (navigator.vibrate) navigator.vibrate(12);
+    showMember(info.b, info.m, lastDir);
+  } else {
+    showMember(-1, 0, lastDir);
+  }
+}
+
+(function(){
+  if (location.search.includes('shot')) document.body.classList.add('shot');
+  const h=location.hash.slice(1); if(!h) return;
+  document.body.classList.add("instant"); goDial(true);
+  setTimeout(()=>document.body.classList.remove("instant"),50);
+  const [hid,hn]=h.split("-"); const i=BRANDS.findIndex(b=>b.id===hid);
+  if(i>=0 && hn){ setTimeout(()=>setStop(firstStop(i)+(+hn-1)),900); return; }
+  if(i>=0) setTimeout(()=>setStop(firstStop(i)),900);
+  if(h==="team") setTimeout(()=>setStop(LAST),900);
+
+})();
+
+/* laadscherm: wacht op alle afbeeldingen (max 6 s) */
+(function(){
+  const loader=document.getElementById("loader"), pct=document.getElementById("loadPct");
+  const srcs=[...BRANDS.map(b=>b.logo), ...BRANDS.flatMap(b=>b.team.map(p=>p.img))];  // ±2,5 MB totaal
+  let done=0; const t0=performance.now();
+  const finish=()=>{ const wait=Math.max(0,1200-(performance.now()-t0)); setTimeout(()=>loader.classList.add("done"),wait); };
+  srcs.forEach(src=>{ const im=new Image(); im.onload=im.onerror=()=>{ done++; pct.textContent=Math.round(done/srcs.length*100)+"%"; if(done===srcs.length) finish(); }; im.src=src; });
+  setTimeout(()=>loader.classList.add("done"),6000);
+  if (location.search.includes("shot")) loader.classList.add("done");
+})();
+</script>
+</body>
+</html>
