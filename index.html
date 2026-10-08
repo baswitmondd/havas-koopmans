@@ -1062,9 +1062,9 @@ function fitFig(card){
   }
   const top = info.offsetTop + info.offsetHeight + (card.querySelector(".dots3") ? 52 : 18);   // ruimte voor wolk + bolletjes
   const knobR = stage.offsetHeight*.72/2;               // knop in teamstand (scale .72)
-  const bottomLimit = innerHeight - knobR*1.1;          // voeten mogen achter de knop vallen
+  const bottomLimit = innerHeight - knobR*0.45;          // voeten mogen achter de knop vallen
   let h = Math.max(120, bottomLimit - top);
-  let w = h*ratio; if (w > innerWidth*.92){ w = innerWidth*.92; h = w/ratio; }
+  let w = h*ratio; if (w > innerWidth*1.0){ w = innerWidth*1.0; h = w/ratio; }
   h *= sc; w *= sc;
   [fig,glow].forEach(e=>{ if(!e) return; e.style.top=top+"px"; e.style.bottom="auto"; e.style.height=h+"px"; e.style.width=w+"px";
     e.style.left="50%"; e.style.marginLeft=(-w/2)+"px"; e.style.translate="0 0"; });
