@@ -413,6 +413,7 @@ body.teams .back-up{display:none}
   .hero-card .fig{left:50%;bottom:17vh;height:auto;width:min(84vw,62vh*.745);margin-left:calc(min(84vw,62vh*.745) / -2)}
   .info{left:5vw;right:5vw;top:calc(2.4vh + 46px);gap:26px;align-items:center;text-align:center}
   .info .name{width:100%}
+  .bubble .dots3{display:none!important}
   .corner-logo.hl{width:80px!important;left:5vw!important}
   .corner-logo.oe{width:72px!important}
   .name h3{font-size:clamp(22px,7vw,30px)!important}
@@ -1031,6 +1032,9 @@ function showMember(bi, mi, dir=1){
   if (!p.quote) card.querySelector(".bubble").remove();
   card.querySelector("h3").textContent = p.name;
   requestAnimationFrame(()=>fitFig(card));
+  // opnieuw passen zodra lettertype geladen is of de tekstwolk van hoogte verandert
+  document.fonts && document.fonts.ready.then(()=>fitFig(card));
+  if (window.ResizeObserver){ const ro=new ResizeObserver(()=>fitFig(card)); ro.observe(card.querySelector(".info")); }
   card.querySelector(".name p").textContent = p.role;
   membersEl.appendChild(card); shown = card;
   void card.offsetWidth; setTimeout(()=>card.classList.add("in"), 30);
@@ -1057,7 +1061,7 @@ function fitFig(card){
       left:left+"px", top:top+"px", bottom:"auto"}); });
     return;
   }
-  const top = info.offsetTop + info.offsetHeight + 6;
+  const top = info.offsetTop + info.offsetHeight + 18;   // ruimte onder de tekstwolk
   const knobR = stage.offsetHeight*.72/2;               // knop in teamstand (scale .72)
   const bottomLimit = innerHeight - knobR*1.1;          // voeten mogen achter de knop vallen
   let h = Math.max(120, bottomLimit - top);
