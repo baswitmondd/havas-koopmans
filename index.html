@@ -387,7 +387,8 @@ body.teams .reset{opacity:.7;pointer-events:auto}
 .drag-hint{position:absolute;left:50%;top:auto;bottom:4vh;transform:translateX(-50%);z-index:4;
   display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.35em;text-transform:uppercase;font-weight:700;
   color:var(--cream);opacity:.8;transition:opacity .5s;white-space:nowrap}
-.drag-hint svg{width:34px;height:34px;color:var(--red);animation:wiggle 2s ease-in-out infinite}
+.drag-hint svg{width:34px;height:34px;color:var(--red);animation:spinHint 2.4s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes spinHint{0%,20%{transform:rotate(0)}70%,100%{transform:rotate(360deg)}}
 @keyframes wiggle{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(35deg)}}
 body.teams .drag-hint{opacity:0}
 
@@ -502,6 +503,7 @@ body.shot .panels{display:none}
   </div>
 
   <div class="drag-hint">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
     Sleep of klik op een logo
   </div>
 
