@@ -390,7 +390,7 @@ body.teams .reset{opacity:.7;pointer-events:auto}
 .drag-hint svg{width:34px;height:34px;color:var(--red);animation:spinHint 2.4s cubic-bezier(.6,0,.4,1) infinite}
 @keyframes spinHint{0%,20%{transform:rotate(0)}70%,100%{transform:rotate(360deg)}}
 @keyframes wiggle{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(35deg)}}
-body.teams .drag-hint{opacity:0}
+.drag-hint{display:none!important}
 
 .back-up{position:absolute;left:50%;top:1.6vh;transform:translateX(-50%);z-index:12;background:none;border:0;cursor:pointer;
   width:30px;height:30px;opacity:.5}
