@@ -433,7 +433,8 @@ body.teams .back-up{display:none}
 }
 body.instant *{transition:none!important}
 body.no-hero #hero,body.no-hero .back-up{display:none!important}
-.corner-logo{position:absolute;z-index:11;pointer-events:none;height:auto}
+.corner-logo{position:absolute;z-index:13;cursor:pointer;height:auto;transition:transform .3s}
+.corner-logo:hover{transform:scale(1.05)}
 .corner-logo.hl{left:2.4vw;top:2.4vh;width:clamp(110px,11.5vw,195px)}
 .corner-logo.oe{right:2.4vw;bottom:2.4vh;width:clamp(85px,8.2vw,140px)}
 body.shot *{transition:none!important;animation:none!important}
@@ -478,8 +479,8 @@ body.shot .panels{display:none}
 <!-- ================= DRAAIKNOP ================= -->
 <section id="dial" class="page">
   <div class="bg"><div class="slab a" id="slabA"></div><div class="slab b" id="slabB"></div><div class="grain"></div><div class="halftone"></div></div>
-  <img class="corner-logo hl" src="assets/logos/havas-lemz.svg" alt="Havas Lemz">
-  <img class="corner-logo oe" src="assets/logos/droetker.svg" alt="Dr. Oetker">
+  <img class="corner-logo hl" title="Terug naar het begin" src="assets/logos/havas-lemz.svg" alt="Havas Lemz">
+  <img class="corner-logo oe" title="Terug naar het begin" src="assets/logos/droetker.svg" alt="Dr. Oetker">
   <button class="back-up" id="backUp" aria-label="Terug naar boven"></button>
 
   <h1 class="dial-title">
@@ -677,6 +678,7 @@ addEventListener("keydown", e => {
 document.getElementById("scrollCue").onclick = () => goDial(true);
 document.getElementById("backUp").onclick = () => goDial(false);
 document.getElementById("reset").onclick = () => setStop(0);
+document.querySelectorAll(".corner-logo").forEach(l=>l.onclick=()=>setStop(0));
 
 /* ---------------- knop opbouwen ---------------- */
 const stage = document.getElementById("stage");
