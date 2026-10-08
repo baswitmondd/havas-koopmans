@@ -241,7 +241,9 @@ body.teams .logo .lbl{display:none}
 .group.in .g{opacity:1;transform:translateY(var(--y,0)) rotate(var(--r,0deg))}
 
 .group.out .g{opacity:0;transform:translateY(30vh);transition:transform .6s var(--ease-io),opacity .4s;transition-delay:0s}
-.dialface .stop.group-tick{stroke:#fff;stroke-width:4;stroke-dasharray:2 4}
+.dialface .stop.group-tick,.dialface .zero{display:none}
+.dialface .tri{fill:#d9cfd2;cursor:pointer;pointer-events:all;transition:fill .3s}
+.dialface .tri:hover{fill:#fff}
 
 .team-btn{position:fixed;right:3vw;top:3vh;z-index:40;font:inherit;font-family:"Bangers",sans-serif;font-size:20px;letter-spacing:.06em;
   padding:.45em 1em;border-radius:99px;border:3px solid #14020a;background:#fff;color:#14020a;cursor:pointer;
@@ -716,6 +718,10 @@ stopEls.forEach(e=>{ const x=stopInfo(+e.dataset.i); if (x.group) e.classList.ad
 const RING_R = KR*1.04, RING_C = 2*Math.PI*RING_R;
 face.insertAdjacentHTML("afterbegin", `<circle class="ring-bg" r="${RING_R}"/><circle class="ring" r="${RING_R}" transform="rotate(-90)" stroke-dasharray="${RING_C}" stroke-dashoffset="${RING_C}"/>`);
 const ringEl = face.querySelector(".ring");
+/* teamfoto-stand (bovenaan): driehoekje in plaats van gestippeld streepje */
+{ const y1=-R2-2, y2=-R1+2, w=(y2-y1)*.62;
+  face.insertAdjacentHTML("beforeend", `<polygon class="tri" points="${-w/2},${y1} ${w/2},${y1} 0,${y2}"/>`);
+  face.querySelector(".tri").addEventListener("click",()=>setStop(LAST)); }
 ticksEl.style.pointerEvents="none";
 let nearIdx=-1;
 function updateFace(){
